@@ -8,6 +8,7 @@
   --gauge-width: 152.67px;
   --headers-size: 17px;
   --fps-size: 25px;
+  font-family: 'LT Binary Neue', sans-serif;
 }
 
 body {
@@ -37,7 +38,7 @@ body {
   padding: 0px;
   box-sizing: border-box;
   border: 1px solid rgba(204, 204, 220, 0.12);
-  font-family: "Roboto", sans-serif;
+  /*font-family: "Roboto", sans-serif; */
   font-size: var(--headers-size);
 
 }
@@ -53,8 +54,8 @@ body {
 }
 .gauge-container > .gauge .value-text {
   fill: var(--good);
-  font-family: sans-serif;
   font-size: 1em;
+  font-family: 'LT Binary Neue', sans-serif;
 }
   
 p {
@@ -73,8 +74,9 @@ p {
 #uptime { /*TEXT*/
   width: 100%;
   max-width: var(--gauge-width);
-  font-family: "Roboto", sans-serif;
+  /*font-family: "Roboto", sans-serif;*/
   font-size: 30px !important;
+  
 }
 
 #time {
@@ -88,7 +90,7 @@ p {
 }
 
 #timeAndFPS {
-  font-family: "Roboto", sans-serif;
+  /*font-family: "Roboto", sans-serif;*/
   width: 100%;
   max-width: var(--gauge-width);
   text-align: center;
@@ -121,7 +123,7 @@ p {
 .weather-widget {
   display: flex;
   align-items: center;
-  font-family: 'LT Binary Neue', sans-serif;
+  /*font-family: 'LT Binary Neue', sans-serif;*/
   overflow: hidden;
   max-height: 90px;
   margin: -22px;
