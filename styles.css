@@ -1,0 +1,153 @@
+:root {
+  --good: #88ff88;
+  --warning: rgb(234, 184, 57);
+  --bad: #f0273b;
+  --background-gauge: #212429;
+  --background: rgb(17, 18, 23);
+  --gauge-height: 130px;
+  --gauge-width: 152.67px;
+  --headers-size: 17px;
+  --fps-size: 25px;
+}
+
+body {
+  background-color: var(--background);
+}
+
+.container {
+  gap: 2px 3px;
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
+}
+
+.break {
+  flex-basis: 100%;
+}
+
+.half-height {
+  height: calc(50% + 1px);
+  align-self: start;
+}
+
+.gauge-container {
+  width: var(--gauge-width);
+  height: var(--gauge-height);
+  display: block;
+  padding: 0px;
+  box-sizing: border-box;
+  border: 1px solid rgba(204, 204, 220, 0.12);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--headers-size);
+
+}
+.gauge-container > .gauge .dial {
+  stroke: #334455;
+  stroke-width: 8;
+  fill: rgba(0,0,0,0);
+}
+.gauge-container > .gauge .value {
+  stroke: #bd9797;
+  stroke-width: 10;
+  fill: rgba(0,0,0,0);
+}
+.gauge-container > .gauge .value-text {
+  fill: var(--good);
+  font-family: sans-serif;
+  font-size: 1em;
+}
+  
+p {
+  text-align: center;
+  color: white;
+  margin: 2px;
+}
+
+#UPTIME { /*DIV*/
+  width: 100%;
+  max-width: var(--gauge-width);
+  justify-content: center;
+  max-height: calc(50% - 5px);
+}
+
+#uptime { /*TEXT*/
+  width: 100%;
+  max-width: var(--gauge-width);
+  font-family: "Roboto", sans-serif;
+  font-size: 30px !important;
+}
+
+#time {
+  font-size: var(--headers-size);
+}
+
+.notGauge {
+  color: white;
+  box-sizing: border-box;
+  border: 1px solid rgba(204, 204, 220, 0.12);;
+}
+
+#timeAndFPS {
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+  max-width: var(--gauge-width);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#FPS, #UVI, #RPi, #UPTIME {
+  font-size: var(--headers-size);
+}
+
+#fps, #uvi, #rpi-temp, #uptime {
+  font-size: var(--fps-size);
+  margin-top: 50px;
+}
+
+.gauge > div:nth-child(2) {
+  top: -10px;
+  margin-bottom: -10px;
+  margin-left: 10px;
+  display: block!important;
+  height: 115px!important;
+  width: 0px!important;
+}
+
+#weather {
+  border: none !important;
+}
+
+.weather-widget {
+  display: flex;
+  align-items: center;
+  font-family: 'LT Binary Neue', sans-serif;
+  overflow: hidden;
+  max-height: 90px;
+  margin: -22px;
+  margin-left: 5px;
+  
+}
+
+.temperature {
+  font-size: 40px;
+  margin: 2px;
+  text-align: right;
+  position: relative;
+  margin-top: 0em;
+}
+
+.temp-symbol {
+  font-size: 30px;
+}
+
+.weather-icon {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.description {
+  font-size: 35px;
+  margin-left: 0.3em;
+}
