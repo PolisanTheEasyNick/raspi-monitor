@@ -210,7 +210,7 @@ const updateGaugeValue = () => {
 const updateRpiValue = () => {
   promRPI.instantQuery("rpi_cpu_temperature_celsius")
     .then((res) => {
-      document.getElementById("rpi-temp").textContent = res.result[0]["value"]["value"]
+      document.getElementById("rpi-temp").textContent = Math.round(res.result[0]["value"]["value"] * 10) / 10
       if(res.result[0]["value"]["value"] > 0 && res.result[0]["value"]["value"] < 65) {
         document.getElementById("rpi-temp").style.color = 'var(--good)'
       } else if(res.result[0]["value"]["value"] >= 65 && res.result[0]["value"]["value"] < 75) {

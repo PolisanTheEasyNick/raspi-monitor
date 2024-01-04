@@ -7,7 +7,7 @@
   --gauge-height: 130px;
   --gauge-width: 152.67px;
   --headers-size: 17px;
-  --fps-size: 25px;
+  --span-size: 24px;
   font-family: 'LT Binary Neue', sans-serif;
 }
 
@@ -104,8 +104,8 @@ p {
   font-size: var(--headers-size);
 }
 
-#fps, #uvi, #rpi-temp, #uptime {
-  font-size: var(--fps-size);
+span {
+  font-size: var(--span-size);
   margin-top: 50px;
 }
 
