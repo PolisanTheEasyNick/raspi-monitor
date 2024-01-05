@@ -7,7 +7,7 @@
   --gauge-height: 130px;
   --gauge-width: 152.67px;
   --headers-size: 17px;
-  --span-size: 24px;
+  --span-size: 26px;
   font-family: 'LT Binary Neue', sans-serif;
 }
 
@@ -104,7 +104,7 @@ p {
   font-size: var(--headers-size);
 }
 
-span {
+span:not(.temp-number, .temp-symbol) {
   font-size: var(--span-size);
   margin-top: 50px;
 }
@@ -134,7 +134,7 @@ span {
 }
 
 .temperature {
-  font-size: 40px;
+  font-size: 35px;
   margin: 2px;
   text-align: right;
   position: relative;
