@@ -1,0 +1,112 @@
+:root {
+    --good: #88ff88;
+    --warning: rgb(234, 184, 57);
+    --bad: #f0273b;
+    --background: rgb(17, 18, 23);
+    font-family: 'LT Binary Neue', sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: white;
+}
+
+.half-height {
+    height: calc(50% - 2px);
+    align-self: start;
+}
+
+.break {
+    flex-basis: 100%;
+  }
+
+.container {
+    display: flex;
+    flex: 1;
+    flex-flow: row wrap;
+
+}
+
+.datetime {
+    font-size: 30px;
+    padding: 10% 0 10% 0;
+    flex: 7;
+    text-align: center;
+    border-right: 1px solid rgba(204, 204, 220, 0.12);
+}
+
+#time {
+    font-size: 50px;
+}
+.uprpi {
+    flex: 5;
+    
+}
+
+#UPTIME {
+    flex: 1;
+    text-align: center;
+    font-size: 20px;
+    line-height: 5px;
+    border-bottom: 1px solid rgba(204, 204, 220, 0.12);
+}
+
+#uptime {
+    font-size: 25px;
+}
+
+#RPi {
+    flex: 1;
+    text-align: center;
+    font-size: 50px;
+    padding: 22px;
+}
+  
+
+.weather-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'LT Binary Neue', sans-serif;
+    margin-top: -50px;
+    margin-left: 0px;
+  }
+  
+  .temperature {
+    font-size: 50px;
+    text-align: right;
+    position: relative;
+    margin-left: 0px;
+  }
+  
+  .temp-symbol {
+    font-size: 40px;
+  }
+  
+  .uv-index {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .uv-number {
+    font-size: 50px;
+    text-align: right;
+    position: relative;
+  }
+  .weather-icon {
+    width: 170px;
+    height: 170px;
+  }
+  
+  .weather-description {
+    font-size: 3em;
+    font-weight: bold;
+    margin-top: -40px;
+    margin-left: 1em;
+  }
+  
+  .iconAndTemp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }

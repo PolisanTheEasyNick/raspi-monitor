@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="pcoff.css" />
+    <script src="dist/prometheus-query.umd.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/lt-binary-neue" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/lexend" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="notGauge datetime">
+            <span id="date">07 January 2024</span><br>
+            <span id="time">22:18:57</span>
+        </div>
+
+        <div class="notGauge container uprpi" style="border: none;">
+            <div id="UPTIME" class="notGauge half-height">
+                <p>UPTIME</p>
+                <span id="uptime">13d 00:00:00</span>
+            </div>
+
+            <div class="break"></div>
+
+            <div id="RPi" class="notGauge half-height">
+                <span id="rpi-temp">0</span>
+            </div>
+        </div>
+
+        <div class="break"></div>
+
+        <div class="weather-widget">
+            <div class="iconAndTemp">
+              <div class="weather-icon"></div>
+              <div class="temperature">
+                <span class="temp-number"></span><span class="temp-symbol">°C</span>
+              </div>
+              <img class="uv-index" src="https://polisan.ddns.net/weather/uv-index.png"/>
+              <span class="uv-number">
+            </div>
+            <div class="weather-description"></div>
+          </div>
+        
+    </div>  
+
+    <script type="application/javascript" src="pcoff.js"></script>
+
+</body>
