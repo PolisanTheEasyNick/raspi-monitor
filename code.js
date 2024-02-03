@@ -1,8 +1,3 @@
-const websocketWeatherServer = 'ws://youraddress:8765'
-const weatherIconFolderLink = 'https://youraddress/weatherAccuFill/'
-const prometheusPCEndpoint = 'http://pcIP:9090'
-const prometheusRPIEndpoint = 'http://rpiIP:9090'
-
 var Gauge = window.Gauge;
 
 var cpuUsageGauge = Gauge(document.getElementById("cpuUsageGauge"), {
@@ -118,44 +113,41 @@ const promRPI = new Prometheus.PrometheusDriver({
   endpoint: prometheusRPIEndpoint,
 })
 
-// Function to perform the Prometheus query and update the gauge value
+var MemTotal;
+promPC.instantQuery('node_memory_MemTotal_bytes')
+  .then((res) => {
+    MemTotal = res['result'][0]['value']['value']
+  })
+
+
+function setGaugeValue(gauge, value, elementID, goodValue, warningValue) {
+  gauge.setValueAnimated(value, 0.5)
+  element = document.getElementById(elementID).children["1"].children[1].children[0]
+  if (value < goodValue) {
+    element.style.fill = "var(--good)";
+  } else if (value >= goodValue && value < warningValue) {
+    element.style.fill = "var(--warning)";
+  } else if(value >= warningValue) {
+    element.style.fill = "var(--bad)";
+  }
+
+}
+
 const updateGaugeValue = () => {
-  promPC.instantQuery('{__name__=~"aida_sys_scpuuti|node_cpu_seconds_total|aida_sys_sgpuuti|nvidia_smi_utilization_gpu_ratio|aida_sys_memuti|node_memory_MemAvailable_bytes|node_memory_MemTotal_bytes|aida_temp|node_hwmon_temp_celsius|aida_temp_tgpu|nvidia_smi_temperature_gpu|aida_sys_suptime_total|node_boot_time_seconds|aida_sys_srtssfps"}')
+  promPC.instantQuery('{__name__=~"aida_sys_scpuuti|aida_sys_sgpuuti|nvidia_smi_utilization_gpu_ratio|aida_sys_memuti|node_memory_MemAvailable_bytes|aida_temp|aida_temp_tgpu|nvidia_smi_temperature_gpu|aida_sys_suptime_total|node_boot_time_seconds"}')
     .then((res) => {
       for(const metric of res.result) {
         switch(metric["metric"]["name"]) {
           case 'aida_sys_memuti':
-            ramUsageGauge.setValueAnimated(metric["value"]["value"], 0.5)
-            element = document.getElementById("ramUsageGauge").children["1"].children[1].children[0]
-            if (metric["value"]["value"] < 80) {
-              element.style.fill = "var(--good)";
-            } else if (metric["value"]["value"] >= 80 && metric["value"]["value"] < 90) {
-              element.style.fill = "var(--warning)";
-            } else if(metric["value"]["value"] >= 90) {
-              element.style.fill = "var(--bad)";
-            }
+            setGaugeValue(ramUsageGauge, metric["value"]["value"], "ramUsageGauge", 80, 90)
             break
           case 'aida_sys_scpuuti':
-            cpuUsageGauge.setValueAnimated(metric["value"]["value"], 0.5)
-            element = document.getElementById("cpuUsageGauge").children["1"].children[1].children[0]
-            if (metric["value"]["value"] < 80) {
-              element.style.fill = "var(--good)";
-            } else if (metric["value"]["value"] >= 80 && metric["value"]["value"] < 90) {
-              element.style.fill = "var(--warning)";
-            } else if(metric["value"]["value"] >= 90) {
-              element.style.fill = "var(--bad)";
-            }
+            setGaugeValue(cpuUsageGauge, metric["value"]["value"], "cpuUsageGauge", 80, 90)
             break
+          case 'nvidia_smi_utilization_gpu_ratio':
+            metric["value"]["value"] *= 100;
           case 'aida_sys_sgpuuti':
-            gpuUsageGauge.setValueAnimated(metric["value"]["value"], 0.5)
-            element = document.getElementById("gpuUsageGauge").children["1"].children[1].children[0]
-            if (metric["value"]["value"] < 80) {
-              element.style.fill = "var(--good)";
-            } else if (metric["value"]["value"] >= 80 && metric["value"]["value"] < 90) {
-              element.style.fill = "var(--warning)";
-            } else if(metric["value"]["value"] >= 90) {
-              element.style.fill = "var(--bad)";
-            }
+            setGaugeValue(gpuUsageGauge, metric["value"]["value"], "gpuUsageGauge", 80, 90)
             break
           case 'aida_sys_srtssfps':
             document.getElementById("fps").textContent = metric["value"]["value"];
@@ -171,32 +163,36 @@ const updateGaugeValue = () => {
             break
           case 'aida_sys_suptime_total':
             const date = new Date(null);
-            date.setSeconds(metric["value"]["value"]); // specify value for SECONDS here
+            date.setSeconds(metric["value"]["value"]);
             const result = date.toISOString().slice(11, 19);
             document.getElementById("uptime").textContent = result
             break
           case 'aida_temp':
-            cpuTempGauge.setValueAnimated(metric["value"]["value"], 0.5)
-            element = document.getElementById("cpuTempGauge").children["1"].children[1].children[0]
-            if (metric["value"]["value"] < 65) {
-              element.style.fill = "var(--good)";
-            } else if (metric["value"]["value"] >= 65 && metric["value"]["value"] < 75) {
-              element.style.fill = "var(--warning)";
-            } else if(metric["value"]["value"] >= 75) {
-              element.style.fill = "var(--bad)";
-            }
+            setGaugeValue(cpuTempGauge, metric["value"]["value"], "cpuTempGauge", 65, 75)
             break
           case 'aida_temp_tgpu':
-            gpuTempGauge.setValueAnimated(metric["value"]["value"], 0.5);
-            element = document.getElementById("gpuTempGauge").children["1"].children[1].children[0]
-            if (metric["value"]["value"] < 65) {
+          case 'nvidia_smi_temperature_gpu':
+            setGaugeValue(gpuTempGauge, metric["value"]["value"], "gpuTempGauge", 65, 75)
+            break
+          case 'node_boot_time_seconds':
+            const date2 = new Date();
+            date2.setSeconds(new Date().getTime() / 1000 - metric["value"]["value"] / 1000);
+            const result2 = date2.toISOString().slice(11, 19);
+            document.getElementById("uptime").textContent = result2
+            break
+          case 'node_memory_MemAvailable_bytes':
+            const memUsage = (1 - (metric["value"]["value"] / (MemTotal)))* 100
+            ramUsageGauge.setValueAnimated(memUsage, 0.5)
+            element = document.getElementById("ramUsageGauge").children["1"].children[1].children[0]
+            if (memUsage < 80) {
               element.style.fill = "var(--good)";
-            } else if (metric["value"]["value"] >= 65 && metric["value"]["value"] < 75) {
+            } else if (memUsage >= 80 && memUsage < 90) {
               element.style.fill = "var(--warning)";
-            } else if(metric["value"]["value"] >= 75) {
+            } else if(memUsage >= 90) {
               element.style.fill = "var(--bad)";
             }
             break
+
           default:
             console.log(metric["metric"]["name"]) 
         }
@@ -205,6 +201,16 @@ const updateGaugeValue = () => {
     .catch((err) => {
       console.error('Error fetching Prometheus data: ' + err);
     });
+
+    //cpu utilization
+    promPC.instantQuery("100 - (avg(irate(node_cpu_seconds_total{mode='idle'}[1m])) * 100)")
+    .then((res) => {
+      setGaugeValue(cpuUsageGauge, res['result'][0]['value']['value'], "cpuUsageGauge", 80, 90)
+    })
+    promPC.instantQuery(`node_hwmon_temp_celsius{sensor='${tempSensor}'}`)
+    .then((res) => {
+      setGaugeValue(cpuTempGauge, res['result'][0]['value']['value'], "cpuTempGauge", 65, 75)
+    })
 };
 
 const updateRpiValue = () => {
