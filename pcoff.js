@@ -1,7 +1,3 @@
-const websocketWeatherServer = 'ws://youraddress:8765'
-const weatherIconFolderLink = 'https://youraddress/weatherAccuFill/'
-const prometheusRPIEndpoint = 'http://rpiIP:9090'
-
 function formatTime(seconds) {
     const days = Math.floor(seconds / (24 * 3600));
     const hours = Math.floor((seconds % (24 * 3600)) / 3600);
