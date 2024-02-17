@@ -116,7 +116,9 @@ const promRPI = new Prometheus.PrometheusDriver({
 var MemTotal;
 promPC.instantQuery('node_memory_MemTotal_bytes')
   .then((res) => {
-    MemTotal = res['result'][0]['value']['value']
+	if(res['result'][0]) {
+      MemTotal = res['result'][0]['value']['value']
+	}
   })
 
 
@@ -134,7 +136,7 @@ function setGaugeValue(gauge, value, elementID, goodValue, warningValue) {
 }
 
 const updateGaugeValue = () => {
-  promPC.instantQuery('{__name__=~"aida_sys_scpuuti|aida_sys_sgpuuti|nvidia_smi_utilization_gpu_ratio|aida_sys_memuti|node_memory_MemAvailable_bytes|aida_temp|aida_temp_tgpu|nvidia_smi_temperature_gpu|aida_sys_suptime_total|node_boot_time_seconds"}')
+  promPC.instantQuery('{__name__=~"aida_sys_scpuuti|aida_sys_sgpuuti|nvidia_smi_utilization_gpu_ratio|aida_sys_srtssfps|aida_sys_memuti|node_memory_MemAvailable_bytes|aida_temp|aida_temp_tgpu|nvidia_smi_temperature_gpu|aida_sys_suptime_total|node_boot_time_seconds"}')
     .then((res) => {
       for(const metric of res.result) {
         switch(metric["metric"]["name"]) {
@@ -205,11 +207,17 @@ const updateGaugeValue = () => {
     //cpu utilization
     promPC.instantQuery("100 - (avg(irate(node_cpu_seconds_total{mode='idle'}[1m])) * 100)")
     .then((res) => {
-      setGaugeValue(cpuUsageGauge, res['result'][0]['value']['value'], "cpuUsageGauge", 80, 90)
+	  if(res['result'][0]) {
+         setGaugeValue(cpuUsageGauge, res['result'][0]['value']['value'], "cpuUsageGauge", 80, 90)
+	  }
     })
     promPC.instantQuery(`node_hwmon_temp_celsius{sensor='${tempSensor}'}`)
     .then((res) => {
-      setGaugeValue(cpuTempGauge, res['result'][0]['value']['value'], "cpuTempGauge", 65, 75)
+	  if(res['result'][0]) {
+		if(res['result'][0]) {
+          setGaugeValue(cpuTempGauge, res['result'][0]['value']['value'], "cpuTempGauge", 65, 75)
+		}
+	  }
     })
 };
 
