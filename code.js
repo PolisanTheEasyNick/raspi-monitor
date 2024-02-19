@@ -178,7 +178,7 @@ const updateGaugeValue = () => {
             break
           case 'node_boot_time_seconds':
             const date2 = new Date();
-            date2.setSeconds(new Date().getTime() / 1000 - metric["value"]["value"] / 1000);
+            date2.setTime(new Date().getTime() - metric["value"]["value"] * 1000);
             const result2 = date2.toISOString().slice(11, 19);
             document.getElementById("uptime").textContent = result2
             break
